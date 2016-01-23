@@ -1,10 +1,18 @@
+#
+# Cookbook: consul
+# License: Apache 2.0
+#
+# Copyright 2014-2015, Bloomberg Finance L.P.
+#
 require 'poise'
+require_relative 'helpers'
 
 module ConsulCookbook
   module Resource
     # Resource for managing the Consul web UI installation.
     class ConsulUI < Chef::Resource
       include Poise
+      include ConsulCookbook::Helpers
       provides(:consul_ui)
       default_action(:install)
 
@@ -60,8 +68,8 @@ module ConsulCookbook
             owner new_resource.owner
             group new_resource.group
             install_path new_resource.install_path
-            remote_url new_resource.binary_url % { version: new_resource.version, filename: new_resource.binary_filename }
-            remote_checksum new_resource.binary_checksum
+            remote_url new_resource.binary_url % { version: new_resource.version, filename: new_resource.binary_filename('web_ui') }
+            remote_checksum new_resource.binary_checksum 'web_ui'
           end
         end
       end

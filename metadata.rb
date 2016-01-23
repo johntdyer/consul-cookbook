@@ -15,13 +15,12 @@ supports 'arch'
 supports 'windows'
 
 depends 'chef-vault', '~> 1.3'
-depends 'chocolatey'
+depends 'nssm'
 depends 'golang'
 depends 'firewall', '~> 2.0'
 depends 'libartifact', '~> 1.3'
 depends 'poise', '~> 2.2'
 depends 'poise-service', '~> 1.0'
-depends 'selinux', '~> 0.9'
 
 source_url 'https://github.com/johnbellone/consul-cookbook' if respond_to?(:source_url)
 issues_url 'https://github.com/johnbellone/consul-cookbook/issues' if respond_to?(:issues_url)
