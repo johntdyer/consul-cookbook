@@ -7,7 +7,6 @@
 require 'poise_service/service_mixin'
 require_relative 'helpers'
 
-
 module ConsulCookbook
   module Resource
     # A resource for managing the Consul service.
@@ -28,7 +27,7 @@ module ConsulCookbook
 
       # @!attribute install_path
       # @return [String]
-      attribute(:install_path, kind_of: String, default: lazy { windows? ? config_prefix_path : '/srv' })
+      attribute(:install_path, kind_of: String, default: lazy { node['consul']['service']['install_path'] })
 
       # @!attribute config_file
       # @return [String]
@@ -60,7 +59,7 @@ module ConsulCookbook
 
       # @!attribute data_dir
       # @return [String]
-      attribute(:data_dir, kind_of: String, default: lazy { node['consul']['service']['data_dir'] })
+      attribute(:data_dir, kind_of: String, default: lazy { node['consul']['config']['data_dir'] })
 
       # @!attribute config_dir
       # @return [String]
@@ -82,7 +81,6 @@ module ConsulCookbook
       include ConsulCookbook::Helpers
 
       def action_enable
-        new_resource.notifies(:reload, new_resource, :delayed)
         notifying_block do
           case new_resource.install_method
           when 'package'
@@ -161,6 +159,11 @@ module ConsulCookbook
         service.environment(new_resource.environment)
         service.restart_on_update(true)
         service.options(:systemd, template: 'consul:systemd.service.erb')
+        service.options(:sysvinit, template: 'consul:sysvinit.service.erb')
+
+        if node.platform_family?('rhel') && node.platform_version.to_i == 6
+          service.provider(:sysvinit)
+        end
       end
     end
   end

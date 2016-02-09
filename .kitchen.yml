@@ -8,8 +8,9 @@ provisioner:
 platforms:
   - name: ubuntu-14.04
   - name: ubuntu-12.04
-  - name: centos-7.1
+  - name: centos-7.2
   - name: centos-6.7
+  - name: centos-5.11
   - name: windows-2012r2
 
 suites:
@@ -44,8 +45,9 @@ suites:
         service:
           install_method: package
     excludes:
-      - centos-7.1
+      - centos-7.2
       - centos-6.7
+      - centos-5.11
   - name: acl
     run_list:
       - recipe[consul::default]
@@ -60,3 +62,21 @@ suites:
           acl_master_token: doublesecret
           acl_datacenter: fortmeade
           acl_default_policy: deny
+    excludes:
+      - windows-2012r2
+      - centos-7.2
+      - centos-6.7
+      - centos-5.11
+  - name: windefault
+    includes:
+      - windows-2012r2
+    run_list:
+      - recipe[consul::default]
+    attributes:
+      consul:
+        service_user: vagrant
+        config: *default-config
+        service:
+          nssm_params:
+            AppStdout: C:\foo\bar\out.log
+            AppStderr: C:\foo\bar\err.log

@@ -1,9 +1,10 @@
 consul-cookbook
 ===============
-[![Join the chat at https://gitter.im/johnbellone/consul-cookbook](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/johnbellone/consul-cookbook?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-![Release](http://img.shields.io/github/release/johnbellone/consul-cookbook.svg)
-[![Build Status](http://img.shields.io/travis/johnbellone/consul-cookbook.svg)](http://travis-ci.org/johnbellone/consul-cookbook)
-[![Code Coverage](http://img.shields.io/codeclimate/github/johnbellone/consul-cookbook.svg)](https://codeclimate.com/github/johnbellone/consul-cookbook)
+[![Build Status](https://img.shields.io/travis/johnbellone/consul-cookbook.svg)](https://travis-ci.org/johnbellone/consul-cookbook)
+[![Code Quality](https://img.shields.io/codeclimate/github/johnbellone/consul-cookbook.svg)](https://codeclimate.com/github/johnbellone/consul-cookbook)
+[![Test Coverage](https://codeclimate.com/github/johnbellone/consul-cookbook/badges/coverage.svg)](https://codeclimate.com/github/johnbellone/consul-cookbook/coverage)
+[![Cookbook Version](https://img.shields.io/cookbook/v/consul.svg)](https://supermarket.chef.io/cookbooks/consul)
+[![License](https://img.shields.io/badge/license-Apache_2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
 [Application cookbook][0] which installs and configures [Consul][1].
 
@@ -27,9 +28,10 @@ for more advanced configuration.
 Out of the box the following platforms are certified to work and are
 tested using our [Test Kitchen][8] configuration. Additional platforms
 _may_ work, but your mileage may vary.
-- CentOS (RHEL) 6.6, 7.1
+
+- CentOS (RHEL) 5.11, 6.7, 7.2
 - Ubuntu 12.04, 14.04
-- Windows
+- Windows 2012
 
 ### Client
 Out of the box the default recipe installs and configures the Consul

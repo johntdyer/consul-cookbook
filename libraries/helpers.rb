@@ -2,7 +2,7 @@
 # Cookbook: consul
 # License: Apache 2.0
 #
-# Copyright (C) 2015 Bloomberg Finance L.P.
+# Copyright 2014-2016, Bloomberg Finance L.P.
 #
 
 module ConsulCookbook
@@ -40,15 +40,15 @@ module ConsulCookbook
       windows? ? join_path(program_files, 'consul') : join_path('/etc', 'consul')
     end
 
-    def data_prefix_path
-      windows? ? join_path(program_files, 'consul') : join_path('/var/lib', 'consul')
+    def data_path
+      windows? ? join_path(program_files, 'consul', 'data') : join_path('/var/lib', 'consul')
     end
 
     def command(config_file, config_dir)
       if windows?
         %{agent -config-file="""#{config_file}""" -config-dir="""#{config_dir}"""}
       else
-        "/usr/bin/env consul agent -config-file=#{config_file} -config-dir=#{config_dir}"
+        "/usr/local/bin/consul agent -config-file=#{config_file} -config-dir=#{config_dir}"
       end
     end
 
@@ -133,8 +133,8 @@ module ConsulCookbook
       exit_code == 0 ? true : false
     end
 
-    def nssm_service_running?
-      shell_out!(%{"#{nssm_exe}" status consul}, returns: [0]).stdout.delete("\0").strip.eql? 'SERVICE_RUNNING'
+    def nssm_service_status?(expected_status)
+      expected_status.include? shell_out!(%{"#{nssm_exe}" status consul}, returns: [0]).stdout.delete("\0").strip
     end
 
     # Returns a hash of mismatched params
@@ -150,3 +150,5 @@ module ConsulCookbook
     end
   end
 end
+
+Chef::Node.send(:include, ConsulCookbook::Helpers)
